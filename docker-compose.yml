@@ -17,4 +17,6 @@ services:
         depends_on:
             - postgresql
         environment:
-            - WEBSHOPPASSWORD=remekpass
+            - WEBSHOP_URL=jdbc:postgresql://localhost:5432/remekwebshopdb
+            - WEBSHOP_USER=webshopadmin
+            - WEBSHOP_PASSWORD=remekpass
