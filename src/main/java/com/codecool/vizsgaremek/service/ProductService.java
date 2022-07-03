@@ -3,12 +3,12 @@ package com.codecool.vizsgaremek.service;
 import com.codecool.vizsgaremek.entity.Product;
 import com.codecool.vizsgaremek.entity.dto.SaveProductDto;
 import com.codecool.vizsgaremek.entity.dto.UpdateProductDto;
+import com.codecool.vizsgaremek.exception.ProductNotFoundException;
 import com.codecool.vizsgaremek.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class ProductService {
@@ -24,7 +24,7 @@ public class ProductService {
     }
 
     public Product findProductById(long id){
-        return productRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        return productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
     }
 
     public Product saveProduct(SaveProductDto saveProductDto){

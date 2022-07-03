@@ -3,7 +3,7 @@ package com.codecool.vizsgaremek.service;
 import com.codecool.vizsgaremek.entity.Customer;
 import com.codecool.vizsgaremek.entity.dto.SaveCustomerDto;
 import com.codecool.vizsgaremek.entity.dto.UpdateCustomerDto;
-import com.codecool.vizsgaremek.exception.CustomerNotFound;
+import com.codecool.vizsgaremek.exception.CustomerNotFoundException;
 import com.codecool.vizsgaremek.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class CustomerService {
     }
 
     public Customer findCustomerById(long id){
-        return customerRepository.findById(id).orElseThrow(CustomerNotFound::new);
+        return customerRepository.findById(id).orElseThrow(CustomerNotFoundException::new);
     }
 
     public Customer saveCustomer(SaveCustomerDto saveCustomerDto){

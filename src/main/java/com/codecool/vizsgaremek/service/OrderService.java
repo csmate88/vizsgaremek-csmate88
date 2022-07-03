@@ -3,14 +3,18 @@ package com.codecool.vizsgaremek.service;
 import com.codecool.vizsgaremek.entity.Order;
 import com.codecool.vizsgaremek.entity.dto.SaveOrderDto;
 import com.codecool.vizsgaremek.entity.dto.UpdateOrderDto;
+import com.codecool.vizsgaremek.exception.OrderNotFoundException;
 import com.codecool.vizsgaremek.repository.OrderItemRepository;
 import com.codecool.vizsgaremek.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.NoSuchElementException;
+
 
 @Service
 public class OrderService {
@@ -30,7 +34,7 @@ public class OrderService {
     }
 
     public Order findOrderById(long id){
-        return orderRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        return orderRepository.findById(id).orElseThrow(OrderNotFoundException::new);
     }
 
     public Order saveOrder(SaveOrderDto saveOrderDto){
@@ -50,5 +54,11 @@ public class OrderService {
 
     public void deleteOrder(long id){
         orderRepository.deleteById(id);
+    }
+
+    public List<Order> findOrdersBeforeDate(String date) {
+        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date1= LocalDate.parse(date,formatter);
+        return orderRepository.findOrdersBeforeDate(date1.atTime(23,59));
     }
 }
