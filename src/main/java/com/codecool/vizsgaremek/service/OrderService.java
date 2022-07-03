@@ -1,20 +1,28 @@
 package com.codecool.vizsgaremek.service;
 
 import com.codecool.vizsgaremek.entity.Order;
+import com.codecool.vizsgaremek.entity.dto.SaveOrderDto;
+import com.codecool.vizsgaremek.entity.dto.UpdateOrderDto;
+import com.codecool.vizsgaremek.repository.OrderItemRepository;
 import com.codecool.vizsgaremek.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
 public class OrderService {
     private final OrderRepository orderRepository;
+    private final OrderItemRepository orderItemRepository;
+    private final CustomerService customerService;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository) {
+    public OrderService(OrderRepository orderRepository,OrderItemRepository orderItemRepository,CustomerService customerService) {
         this.orderRepository = orderRepository;
+        this.orderItemRepository=orderItemRepository;
+        this.customerService=customerService;
     }
 
     public List<Order> findAll(){
@@ -25,15 +33,18 @@ public class OrderService {
         return orderRepository.findById(id).orElseThrow(NoSuchElementException::new);
     }
 
-    public Order saveOrder(Order order){
-        return orderRepository.save(order);
+    public Order saveOrder(SaveOrderDto saveOrderDto){
+        return orderRepository.save(Order.builder()
+                .customer(customerService.findCustomerById(saveOrderDto.getCustomerId()))
+                .orderItems(saveOrderDto.getOrderItems())
+                .orderTime(LocalDateTime.now())
+                .build());
     }
 
-    public Order updateOrder(Order order){
-        Order orderToUpdate =findOrderById(order.getId());
-        orderToUpdate.setCustomer(order.getCustomer());
-        orderToUpdate.setOrderItems(order.getOrderItems());
-        orderToUpdate.setOrderTime(order.getOrderTime());
+    public Order updateOrder(UpdateOrderDto updateOrderDto){
+        Order orderToUpdate =findOrderById(updateOrderDto.getId());
+        orderToUpdate.setCustomer(updateOrderDto.getCustomer());
+        orderToUpdate.setOrderItems(updateOrderDto.getOrderItems());
         return orderRepository.save(orderToUpdate);
     }
 

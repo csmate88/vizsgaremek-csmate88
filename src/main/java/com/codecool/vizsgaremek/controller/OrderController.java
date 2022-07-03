@@ -1,10 +1,13 @@
 package com.codecool.vizsgaremek.controller;
 
 import com.codecool.vizsgaremek.entity.Order;
+import com.codecool.vizsgaremek.entity.dto.SaveOrderDto;
+import com.codecool.vizsgaremek.entity.dto.UpdateOrderDto;
 import com.codecool.vizsgaremek.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,13 +29,13 @@ public class OrderController {
         return orderService.findOrderById(id);
     }
     @PostMapping
-    public Order saveOrder(@RequestBody Order order) {
-        return orderService.saveOrder(order);
+    public Order saveOrder(@Valid @RequestBody SaveOrderDto saveOrderDto) {
+        return orderService.saveOrder(saveOrderDto);
     }
 
     @PutMapping
-    public Order updateOrder(@RequestBody Order order) {
-        return orderService.updateOrder(order);
+    public Order updateOrder(@Valid @RequestBody UpdateOrderDto updateOrderDto) {
+        return orderService.updateOrder(updateOrderDto);
     }
     @DeleteMapping("/{id}")
     public void deleteOrder(@PathVariable("id") long id) {

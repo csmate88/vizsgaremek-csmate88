@@ -1,10 +1,13 @@
 package com.codecool.vizsgaremek.controller;
 
 import com.codecool.vizsgaremek.entity.Product;
+import com.codecool.vizsgaremek.entity.dto.SaveProductDto;
+import com.codecool.vizsgaremek.entity.dto.UpdateProductDto;
 import com.codecool.vizsgaremek.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -28,13 +31,13 @@ public class ProductController {
     }
 
     @PostMapping
-    public Product saveProduct(@RequestBody Product product) {
-        return productService.saveProduct(product);
+    public Product saveProduct(@Valid @RequestBody SaveProductDto saveProductDto) {
+        return productService.saveProduct(saveProductDto);
     }
 
     @PutMapping
-    public Product updateProduct(@RequestBody Product product) {
-        return productService.updateProduct(product);
+    public Product updateProduct(@Valid @RequestBody UpdateProductDto productDto) {
+        return productService.updateProduct(productDto);
     }
 
     @DeleteMapping("/{id}")

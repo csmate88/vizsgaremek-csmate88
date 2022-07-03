@@ -1,6 +1,8 @@
 package com.codecool.vizsgaremek.service;
 
 import com.codecool.vizsgaremek.entity.Product;
+import com.codecool.vizsgaremek.entity.dto.SaveProductDto;
+import com.codecool.vizsgaremek.entity.dto.UpdateProductDto;
 import com.codecool.vizsgaremek.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,15 +27,20 @@ public class ProductService {
         return productRepository.findById(id).orElseThrow(NoSuchElementException::new);
     }
 
-    public Product saveProduct(Product product){
-        return productRepository.save(product);
+    public Product saveProduct(SaveProductDto saveProductDto){
+        return productRepository.save(
+                Product.builder()
+                        .name(saveProductDto.getName())
+                        .description(saveProductDto.getDescription())
+                        .inventory(saveProductDto.getInventory())
+                        .build());
     }
 
-    public Product updateProduct(Product product){
-        Product productToUpdate=findProductById(product.getId());
-        productToUpdate.setName(product.getName());
-        productToUpdate.setDescription(product.getDescription());
-        productToUpdate.setInventory(product.getInventory());
+    public Product updateProduct(UpdateProductDto productDto){
+        Product productToUpdate=findProductById(productDto.getId());
+        productToUpdate.setName(productDto.getName());
+        productToUpdate.setDescription(productDto.getDescription());
+        productToUpdate.setInventory(productDto.getInventory());
        return productRepository.save(productToUpdate);
     }
 
