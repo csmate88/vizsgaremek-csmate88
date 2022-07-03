@@ -1,7 +1,7 @@
 version: "0.2"
 
 services:
-    postgresql:
+    webshopdb:
         image: postgres:14.4-alpine
         container_name: webshopdb
         ports:
@@ -11,12 +11,13 @@ services:
             - POSTGRES_PASSWORD=remekpass
             - POSTGRES_DB=remekwebshopdb
     vremek:
+        image: vremek
         build: .
         ports:
             - "8080:8080"
         depends_on:
-            - postgresql
+            - webshopdb
         environment:
-            - WEBSHOP_URL=jdbc:postgresql://localhost:5432/remekwebshopdb
+            - WEBSHOP_URL=jdbc:postgresql://webshopdb:5432/remekwebshopdb
             - WEBSHOP_USER=webshopadmin
             - WEBSHOP_PASSWORD=remekpass
