@@ -4,23 +4,33 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
-public class OrderItem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+@Builder
+public class OrderItem implements Serializable {
+    @EmbeddedId
+    private OrderItemId orderItemId;
 
-    @OneToOne
-    private Product product;
-
+    @MapsId("orderId")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     @JsonBackReference
     private Order order;
+
+    @MapsId("productId")
+    @OneToOne
+    private Product product;
+
     private int quantity;
+}
+
+@Embeddable
+@Data
+class OrderItemId implements Serializable {
+    private Long orderId;
+    private Long productId;
 }
