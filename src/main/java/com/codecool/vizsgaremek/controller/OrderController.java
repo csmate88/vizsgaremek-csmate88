@@ -35,7 +35,7 @@ public class OrderController {
             return ResponseEntity.ok(orderService.findOrderById(id));
         } catch (OrderNotFoundException e){
             log.error("ORDER NOT FOUND");
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.notFound().build();
         }
     }
 
