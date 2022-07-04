@@ -1,10 +1,11 @@
 package com.codecool.vizsgaremek.entity.dto;
 
+import com.codecool.vizsgaremek.entity.Order;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Positive;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @AllArgsConstructor
@@ -15,6 +16,6 @@ public class SaveProductDto {
     private String name;
     @Size(min=2)
     private String description;
-    @Positive
-    private long inventory;
+    @NotNull
+    private Order order;
 }

@@ -32,7 +32,6 @@ public class ProductService {
                 Product.builder()
                         .name(saveProductDto.getName())
                         .description(saveProductDto.getDescription())
-                        .inventory(saveProductDto.getInventory())
                         .build());
     }
 
@@ -40,7 +39,6 @@ public class ProductService {
         Product productToUpdate=findProductById(productDto.getId());
         productToUpdate.setName(productDto.getName());
         productToUpdate.setDescription(productDto.getDescription());
-        productToUpdate.setInventory(productDto.getInventory());
        return productRepository.save(productToUpdate);
     }
 

@@ -19,14 +19,15 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "customer_id")
     @JsonBackReference
     private Customer customer;
 
-    @OneToMany(mappedBy = "order",fetch = FetchType.LAZY)
+
+    @OneToMany(mappedBy = "order")
     @JsonManagedReference
-    private List<OrderItem> orderItems;
+    private List<Product> products;
 
     private LocalDateTime orderTime;
 }

@@ -4,7 +4,6 @@ import com.codecool.vizsgaremek.entity.Order;
 import com.codecool.vizsgaremek.entity.dto.SaveOrderDto;
 import com.codecool.vizsgaremek.entity.dto.UpdateOrderDto;
 import com.codecool.vizsgaremek.exception.OrderNotFoundException;
-import com.codecool.vizsgaremek.repository.OrderItemRepository;
 import com.codecool.vizsgaremek.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,13 +18,12 @@ import java.util.List;
 @Service
 public class OrderService {
     private final OrderRepository orderRepository;
-    private final OrderItemRepository orderItemRepository;
+
     private final CustomerService customerService;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository,OrderItemRepository orderItemRepository,CustomerService customerService) {
+    public OrderService(OrderRepository orderRepository,CustomerService customerService) {
         this.orderRepository = orderRepository;
-        this.orderItemRepository=orderItemRepository;
         this.customerService=customerService;
     }
 
@@ -40,7 +38,7 @@ public class OrderService {
     public Order saveOrder(SaveOrderDto saveOrderDto){
         return orderRepository.save(Order.builder()
                 .customer(customerService.findCustomerById(saveOrderDto.getCustomerId()))
-                .orderItems(saveOrderDto.getOrderItems())
+                .products(saveOrderDto.getProducts())
                 .orderTime(LocalDateTime.now())
                 .build());
     }
@@ -48,7 +46,7 @@ public class OrderService {
     public Order updateOrder(UpdateOrderDto updateOrderDto){
         Order orderToUpdate =findOrderById(updateOrderDto.getId());
         orderToUpdate.setCustomer(updateOrderDto.getCustomer());
-        orderToUpdate.setOrderItems(updateOrderDto.getOrderItems());
+        orderToUpdate.setProducts(updateOrderDto.getProducts());
         return orderRepository.save(orderToUpdate);
     }
 

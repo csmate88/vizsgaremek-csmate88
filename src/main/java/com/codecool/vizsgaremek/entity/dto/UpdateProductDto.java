@@ -1,5 +1,6 @@
 package com.codecool.vizsgaremek.entity.dto;
 
+import com.codecool.vizsgaremek.entity.Order;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,6 @@ public class UpdateProductDto {
     private String name;
     @Size(min=2)
     private String description;
-    @Positive
-    private long inventory;
+    @NotNull
+    private Order order;
 }

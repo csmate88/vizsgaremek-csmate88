@@ -1,6 +1,6 @@
 package com.codecool.vizsgaremek.entity.dto;
 
-import com.codecool.vizsgaremek.entity.OrderItem;
+import com.codecool.vizsgaremek.entity.Product;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,5 +18,5 @@ public class SaveOrderDto {
     @Positive
     private long customerId;
     @Size(min=1,message = "You have to order something")
-    private List<OrderItem> orderItems;
+    private List<Product> products;
 }
