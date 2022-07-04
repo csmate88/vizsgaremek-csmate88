@@ -26,11 +26,12 @@ public class OrderItem implements Serializable {
     private Product product;
 
     private int quantity;
+
+    public OrderItem(OrderItemId orderItemId, Product product, Order order, int quantity) {
+        this.orderItemId = orderItemId;
+        this.quantity = quantity;
+        this.product=product;
+        this.order=order;
+    }
 }
 
-@Embeddable
-@Data
-class OrderItemId implements Serializable {
-    private Long orderId;
-    private Long productId;
-}

@@ -24,7 +24,7 @@ public class Order implements Serializable {
     @JsonBackReference
     private Customer customer;
 
-    @OneToMany(mappedBy = "order",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "order",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JsonManagedReference
     private List<OrderItem> orderItems;
 

@@ -1,6 +1,7 @@
 package com.codecool.vizsgaremek.service;
 
 import com.codecool.vizsgaremek.entity.Order;
+import com.codecool.vizsgaremek.entity.OrderItem;
 import com.codecool.vizsgaremek.entity.dto.SaveOrderDto;
 import com.codecool.vizsgaremek.entity.dto.UpdateOrderDto;
 import com.codecool.vizsgaremek.exception.OrderNotFoundException;
@@ -20,13 +21,15 @@ import java.util.List;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
+    private final ProductService productService;
     private final CustomerService customerService;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository,OrderItemRepository orderItemRepository,CustomerService customerService) {
+    public OrderService(OrderRepository orderRepository,OrderItemRepository orderItemRepository,CustomerService customerService,ProductService productService) {
         this.orderRepository = orderRepository;
         this.orderItemRepository=orderItemRepository;
         this.customerService=customerService;
+        this.productService=productService;
     }
 
     public List<Order> findAll(){
@@ -38,12 +41,23 @@ public class OrderService {
     }
 
     public Order saveOrder(SaveOrderDto saveOrderDto){
-        return orderRepository.save(Order.builder()
+        Order orderToSave= orderRepository.save(Order.builder()
                 .customer(customerService.findCustomerById(saveOrderDto.getCustomerId()))
-                .orderItems(saveOrderDto.getOrderItems())
+                .orderItems(null)
                 .orderTime(LocalDateTime.now())
                 .build());
+        long orderId=orderToSave.getId();
+        List<OrderItem> orderItems = getOrderItems(saveOrderDto, orderId);
+        orderItemRepository.saveAll(orderItems);
+        orderToSave.setOrderItems(orderItems);
+        return orderRepository.save(orderToSave);
     }
+
+    private List<OrderItem> getOrderItems(SaveOrderDto saveOrderDto, long orderId) {
+        return saveOrderDto.getSaveOrderItemDtos().stream()
+                .map(x->x.convertToEntity(orderId,productService.findProductById(x.getProductId()),findOrderById(orderId))).toList();
+    }
+
 
     public Order updateOrder(UpdateOrderDto updateOrderDto){
         Order orderToUpdate =findOrderById(updateOrderDto.getId());
