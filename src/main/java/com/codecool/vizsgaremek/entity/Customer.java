@@ -23,7 +23,7 @@ public class Customer implements Serializable {
     private String telephoneNumber;
     private String address;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", cascade = { CascadeType.REMOVE, CascadeType.PERSIST })
     @JsonManagedReference
     private List<Order> orders;
 

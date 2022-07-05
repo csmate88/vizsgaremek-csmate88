@@ -1,10 +1,12 @@
 package com.codecool.vizsgaremek.service;
 
 import com.codecool.vizsgaremek.entity.Order;
+import com.codecool.vizsgaremek.entity.Product;
 import com.codecool.vizsgaremek.entity.dto.SaveOrderDto;
 import com.codecool.vizsgaremek.entity.dto.UpdateOrderDto;
 import com.codecool.vizsgaremek.exception.OrderNotFoundException;
 import com.codecool.vizsgaremek.repository.OrderRepository;
+import com.codecool.vizsgaremek.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +22,13 @@ public class OrderService {
     private final OrderRepository orderRepository;
 
     private final CustomerService customerService;
+    private final ProductRepository productRepository;
 
     @Autowired
-    public OrderService(OrderRepository orderRepository,CustomerService customerService) {
+    public OrderService(OrderRepository orderRepository,CustomerService customerService,ProductRepository productRepository) {
         this.orderRepository = orderRepository;
         this.customerService=customerService;
+        this.productRepository=productRepository;
     }
 
     public List<Order> findAll(){
@@ -36,17 +40,23 @@ public class OrderService {
     }
 
     public Order saveOrder(SaveOrderDto saveOrderDto){
-        return orderRepository.save(Order.builder()
+        Order newOrder=Order.builder()
                 .customer(customerService.findCustomerById(saveOrderDto.getCustomerId()))
                 .products(saveOrderDto.getProducts())
                 .orderTime(LocalDateTime.now())
-                .build());
+                .build();
+        productRepository.saveAll(saveOrderDto.getProducts());
+        return orderRepository.save(newOrder);
     }
 
     public Order updateOrder(UpdateOrderDto updateOrderDto){
         Order orderToUpdate =findOrderById(updateOrderDto.getId());
-        orderToUpdate.setCustomer(updateOrderDto.getCustomer());
-        orderToUpdate.setProducts(updateOrderDto.getProducts());
+        List<Product> orderToUpdateProductList=updateOrderDto.getProducts();
+        orderToUpdateProductList.forEach(x->x.setOrder(orderToUpdate));
+
+        orderToUpdate.setCustomer(customerService.findCustomerById(updateOrderDto.getCustomerId()));
+        orderToUpdate.setProducts(orderToUpdateProductList);
+        productRepository.saveAll(updateOrderDto.getProducts());
         return orderRepository.save(orderToUpdate);
     }
 
