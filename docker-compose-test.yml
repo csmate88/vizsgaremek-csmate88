@@ -10,8 +10,8 @@ services:
             - POSTGRES_USER=webshopadmin
             - POSTGRES_PASSWORD=remekpass
             - POSTGRES_DB=remekwebshopdb
-    vremek:
-        image: vremek
+    vremek_test:
+        image: vremek_test
         build: .
         ports:
             - "8080:8080"
@@ -24,3 +24,4 @@ services:
             - FLYWAY_URL=jdbc:postgresql://webshopdb:5432/remekwebshopdb
             - FLYWAY_USER=webshopadmin
             - FLYWAY_PASSWORD=remekpass
+

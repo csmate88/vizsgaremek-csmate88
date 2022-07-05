@@ -4,5 +4,5 @@ if [ $EUID != 0 ]; then
     exit $?
 fi
 
-docker build -t vremek .
-docker compose up
+docker build -f Docker_build.dockerfile -t vremek  .
+docker compose up -f docker-compose.yml
