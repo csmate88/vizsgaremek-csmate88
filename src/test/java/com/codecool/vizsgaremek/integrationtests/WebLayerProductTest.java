@@ -9,15 +9,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
-public class WebLayerProductTest {
+class WebLayerProductTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -59,10 +59,19 @@ public class WebLayerProductTest {
 
     @Test
     void saveProduct_ReturnSavedProduct() throws Exception {
+        mockMvc.perform(post("/product").content("{\"name\":\"new thing\",\"description\":\"A really new thing\"}").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"id\":12,\"name\":\"new thing\",\"description\":\"A really new thing\"}"));
     }
 
     @Test
     void UpdateProductChanges() throws Exception{
-
+        mockMvc.perform(get("/product/3"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"id\":3,\"name\":\"Energy Drink\",\"description\":\"Sugar and caffeine\"}"));
+        mockMvc.perform(put("/product").content("{\"id\":3,\"name\":\"Energy Drink\",\"description\":\"Sugar and caffeine and heart attack\"}").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andExpect(content().json("{\"id\":3,\"name\":\"Energy Drink\",\"description\":\"Sugar and caffeine and heart attack\"}"));
+        mockMvc.perform(get("/product/3"))
+                .andExpect(jsonPath("$.description",equalTo("Sugar and caffeine and heart attack")));
     }
 }
