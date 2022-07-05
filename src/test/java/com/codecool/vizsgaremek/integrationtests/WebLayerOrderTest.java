@@ -1,5 +1,6 @@
 package com.codecool.vizsgaremek.integrationtests;
 
+import com.codecool.vizsgaremek.TestUtil;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,10 +23,8 @@ public class WebLayerOrderTest {
     private MockMvc mockMvc;
 
     @BeforeEach
-    void clean(){
-        Flyway flyway=Flyway.configure().envVars().load();
-        flyway.clean();
-        flyway.migrate();
+    void clean() {
+        TestUtil.resetDatabese();
     }
 
     @Test
