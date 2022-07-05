@@ -1,7 +1,5 @@
 package com.codecool.vizsgaremek.entity.dto;
 
-import com.codecool.vizsgaremek.entity.Customer;
-
 
 import com.codecool.vizsgaremek.entity.Product;
 import lombok.AllArgsConstructor;
@@ -26,7 +24,7 @@ public class UpdateOrderDto {
     private long id;
 
     @NotNull
-    private Customer customer;
+    private long customerId;
     @Size(min=1,message = "You have to order something")
     private List<Product> products;
 }
