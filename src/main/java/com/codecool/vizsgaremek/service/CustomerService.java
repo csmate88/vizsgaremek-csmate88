@@ -8,6 +8,7 @@ import com.codecool.vizsgaremek.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,6 +34,7 @@ public class CustomerService {
                 .email(saveCustomerDto.getEmail())
                 .telephoneNumber(saveCustomerDto.getTelephoneNumber())
                 .address(saveCustomerDto.getAddress())
+                .orders(new ArrayList<>())
                 .build());
     }
     public Customer updateCustomer(UpdateCustomerDto updateCustomerDto){

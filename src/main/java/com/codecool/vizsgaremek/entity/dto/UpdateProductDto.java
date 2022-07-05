@@ -18,6 +18,5 @@ public class UpdateProductDto {
     private String name;
     @Size(min=2)
     private String description;
-    @NotNull
     private Order order;
 }

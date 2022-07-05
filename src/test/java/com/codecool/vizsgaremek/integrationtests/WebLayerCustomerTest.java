@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
@@ -45,7 +46,7 @@ class WebLayerCustomerTest {
 
     @Test
     void findCustomer_ReturnsSpecificCustomer_GivenId() throws Exception{
-        mockMvc.perform(get("/customer/5")).andExpect(status().isOk()).andExpect(content().json("{\"id\":5,\"name\":\"Tim Doe\",\"email\":\"tim.doe@email.fr\",\"telephoneNumber\":\"+36337689130\",\"address\":\"3000 Hatvan Puszta tér 5.\",\"orders\":[]}"));
+        mockMvc.perform(get("/customer/5")).andExpect(status().isOk()).andExpect(content().json("{\"id\":5,\"name\":\"Tim Doe\",\"email\":\"tim.doe@email.fr\",\"telephoneNumber\":\"+36-33-7689130\",\"address\":\"3000 Hatvan Puszta tér 5.\",\"orders\":[]}"));
     }
 
 
@@ -66,12 +67,16 @@ class WebLayerCustomerTest {
 
     @Test
     void saveCustomer_ReturnSavedCustomer() throws Exception {
-
+        mockMvc.perform(post("/customer").content("{\"name\":\"Brazil Kakas\",\"email\":\"egyemil@comail.com\",\"telephoneNumber\":\"+36-30-1112223\",\"address\":\"1111 Budapest\"}").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"id\":6,\"name\":\"Brazil Kakas\",\"email\":\"egyemil@comail.com\",\"telephoneNumber\":\"+36-30-1112223\",\"address\":\"1111 Budapest\",\"orders\":[]}"));
     }
 
     @Test
     void UpdateCustomerChanges() throws Exception{
-
+        mockMvc.perform(put("/customer").content("{\"id\": 5,\"name\": \"Tim Doe\",\"email\": \"tim.doe@new.mail\",\"telephoneNumber\": \"+36-33-7689130\",\"address\": \"3000 Hatvan Puszta tér 5.\",\"orders\": []}").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.email",equalTo("tim.doe@new.mail")));
     }
 
 

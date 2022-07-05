@@ -1,9 +1,9 @@
 INSERT INTO customer (name, address, email, telephone_number)
-VALUES ('John Doe', '1111 Budapest Valami utca 34.', 'john.doe@email.hk', '+36151122334'),
-       ('Jane Doe', '9000 Győr Virág utca 3.', 'jane.doe@gmail.kom', '+36111234567'),
+VALUES ('John Doe', '1111 Budapest Valami utca 34.', 'john.doe@email.hk', '+36-15-1122334'),
+       ('Jane Doe', '9000 Győr Virág utca 3.', 'jane.doe@gmail.kom', '+36-11-1234567'),
        ('Joe Doe', '5000 Szolnok Valami utca 12.', 'john.doe@email.it', '+36229999999'),
-       ('Jessica Doe', '2000 Szentendre Otthon utca 4.', 'jessica.doe@citromail.hun', '+36228888888'),
-       ('Tim Doe', '3000 Hatvan Puszta tér 5.', 'tim.doe@email.fr', '+36337689130');
+       ('Jessica Doe', '2000 Szentendre Otthon utca 4.', 'jessica.doe@citromail.hun', '+36-22-8888888'),
+       ('Tim Doe', '3000 Hatvan Puszta tér 5.', 'tim.doe@email.fr', '+36-33-7689130');
 
 INSERT INTO one_order (customer_id, order_time)
 VALUES (1, '2022-06-06 10:30'),
