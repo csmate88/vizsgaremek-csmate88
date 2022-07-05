@@ -1,0 +1,27 @@
+version: "0.9"
+
+services:
+    webshopdb:
+        image: postgres:14.4-alpine
+        container_name: webshopdb
+        ports:
+            - "5432:5432"
+        environment:
+            - POSTGRES_USER=webshopadmin
+            - POSTGRES_PASSWORD=remekpass
+            - POSTGRES_DB=remekwebshopdb
+    vremek_test:
+        image: vremek_test
+        build: .
+        ports:
+            - "8080:8080"
+        depends_on:
+            - webshopdb
+        environment:
+            - WEBSHOP_URL=jdbc:postgresql://webshopdb:5432/remekwebshopdb
+            - WEBSHOP_USER=webshopadmin
+            - WEBSHOP_PASSWORD=remekpass
+            - FLYWAY_URL=jdbc:postgresql://webshopdb:5432/remekwebshopdb
+            - FLYWAY_USER=webshopadmin
+            - FLYWAY_PASSWORD=remekpass
+
