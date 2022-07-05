@@ -5,4 +5,4 @@ if [ $EUID != 0 ]; then
 fi
 
 docker build -f Docker_build.dockerfile -t vremek  .
-docker compose up -f docker-compose.yml
+docker compose -f docker-compose.yml up
