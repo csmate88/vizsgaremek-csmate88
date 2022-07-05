@@ -1,7 +1,6 @@
 package com.codecool.vizsgaremek.integrationtests;
 
 import com.codecool.vizsgaremek.TestUtil;
-import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class WebLayerOrderTest {
 
     @BeforeEach
     void clean() {
-        TestUtil.resetDatabese();
+        TestUtil.resetDatabase();
     }
 
     @Test
