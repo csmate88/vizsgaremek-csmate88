@@ -21,3 +21,6 @@ services:
             - WEBSHOP_URL=jdbc:postgresql://webshopdb:5432/remekwebshopdb
             - WEBSHOP_USER=webshopadmin
             - WEBSHOP_PASSWORD=remekpass
+            - FLYWAY_URL=jdbc:postgresql://webshopdb:5432/remekwebshopdb
+            - FLYWAY_USER=webshopadmin
+            - FLYWAY_PASSWORD=remekpass
